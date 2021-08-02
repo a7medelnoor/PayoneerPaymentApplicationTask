@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import com.a7medelnoor.payoneerpaymentapplicationtask.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.signature.ObjectKey;
 
 public class Utils {
     public static boolean isValidContextForGlide(final Context context) {
@@ -16,14 +15,13 @@ public class Utils {
         }
         if (context instanceof Activity) {
             final Activity activity = (Activity) context;
-            if (activity.isDestroyed() || activity.isFinishing()) {
-                return false;
-            }
+            return !activity.isDestroyed() && !activity.isFinishing();
         }
         return true;
     }
+
     public static void loadBitmap(String url, ImageView imageView, Context context
-            ) {
+    ) {
         if (isValidContextForGlide(context)) {
             Glide.with(context).load(new GlideUrl(url))
                     .thumbnail(0.1f).placeholder(R.drawable.image_logao_placeholder)
