@@ -11,6 +11,12 @@ import com.a7medelnoor.payoneerpaymentapplicationtask.data.Repository;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.Applicable;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.JSONResponse;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.network.remote.ApiClient;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +27,12 @@ import retrofit2.Response;
 
 public class MainActivityViewModel extends AndroidViewModel {
     Repository repository;
-    public MutableLiveData<JSONResponse> listMutableLiveData = new MutableLiveData<JSONResponse>();
+    public MutableLiveData<List<Applicable>> listMutableLiveData = new MutableLiveData<>();
     MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
     private static final String TAG = "MainActivityViewModel";
     Application application;
     ArrayList<String> label = new ArrayList<>();
-    ArrayList<String> Links = new ArrayList<>();
+    ArrayList<String> linksArraylist = new ArrayList<>();
     List<Applicable> applicables;
     JSONResponse jsonResponse;
     ArrayList<Applicable> data;
@@ -34,35 +40,42 @@ public class MainActivityViewModel extends AndroidViewModel {
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
         this.application = application;
-        getPaymentMethod();
+//        getPaymentMethod();
     }
 
-    public void getPaymentMethod() {
-        applicables = new ArrayList<>();
-        loading.setValue(true);
-        ApiClient.getPaymentService(application).getAllMethodPayment().enqueue(new Callback<JSONResponse>() {
-            @Override
-            public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
-                if (response.code() == 200 && response.body() != null) {
-                    JSONResponse jsonResponses = response.body();
-                    Log.d(TAG, "onResponse: response boy " + jsonResponses);
-//                        data = new ArrayList<>(Arrays.asList(jsonResponses.getApplicables());
-                    Log.d(TAG, "onResponse: " + response.body());
-//                        JSONResponse jsonResponse = response.body();
-                    listMutableLiveData.setValue(jsonResponses);
-                } else if (response.code() == 404) {
-                    Log.d(TAG, "APPError item not found");
-                } else if (response.code() == 500) {
-                    Log.d(TAG, "APPError something occur");
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JSONResponse> call, Throwable throwable) {
-
-            }
-        });
-
-    }
+//    public void getPaymentMethod() {
+//        applicables = new ArrayList<>();
+//        loading.setValue(true);
+//        ApiClient.getPaymentService(application).getAllMethodPayment().enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                JsonArray applicable = response.body().getAsJsonObject("networks").getAsJsonArray("applicable");
+//                for (int i = 0; i < applicable.size(); i++){
+//                    Log.d(TAG, "onResponse: fsbssgsdgsgsrgsrgsrg"+applicable);
+//                    applicables.addAll(applicables);
+//                    listMutableLiveData.setValue(applicables);
+//                }
+//                Log.d(TAG, "onResponse: WWWWWWWWWWWWWWWWWWW"+applicable);
+//                Log.d(TAG, "onResponse: MainViewModel "+response.body().getAsJsonObject("networks"));
+//                JsonObject jsonObject = response.body().getAsJsonObject("networks");
+//                JsonArray array = jsonObject.getAsJsonArray("applicable");
+////                ArrayList<Applicable> applicable = new ArrayList<>();
+//////                applicable.add(applicable.get());
+////                Log.d(TAG, "onResponse: ffffffffff"+array);
+////                for (int i=0; i < array.size(); i++){
+////                    Applicable arrayDetails = array.get(i);
+////                    Log.d(TAG, "onResponse: dssssssssssssssss"+arrayDetails.getLabel());
+////                    label.add(arrayDetails.getAsString());
+//////                    listMutableLiveData.setValue();
+////                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable throwable) {
+//
+//            }
+//        });
+//
+//    }
 }
