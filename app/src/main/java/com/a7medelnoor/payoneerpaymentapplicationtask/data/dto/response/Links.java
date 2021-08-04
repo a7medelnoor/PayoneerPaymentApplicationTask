@@ -10,8 +10,4 @@ public class Links {
     public Links(String logo) {
         this.logo = logo;
     }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
 }

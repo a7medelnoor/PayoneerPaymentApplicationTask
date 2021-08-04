@@ -1,5 +1,7 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.adapter;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +14,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.a7medelnoor.payoneerpaymentapplicationtask.R;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.Applicable;
-import com.a7medelnoor.payoneerpaymentapplicationtask.util.Constants;
 import com.a7medelnoor.payoneerpaymentapplicationtask.util.MyDiffCallback;
-import com.a7medelnoor.payoneerpaymentapplicationtask.util.Utils;
+import com.google.gson.JsonArray;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PaymentMethodRecyclerViewAdapter extends RecyclerView.Adapter<PaymentMethodRecyclerViewAdapter.ViewHolder> {
     ArrayList<Applicable> applicableArrayList;
+    Context context;
+    List<Applicable> applicableListnew;
 
-    public ArrayList<Applicable> getApplicableArrayList() {
-        return applicableArrayList;
+    private static final String TAG = "PaymentMethodRecyclerVi";
+
+    public PaymentMethodRecyclerViewAdapter(ArrayList<Applicable> applicableList, Context context) {
+        this.context = context;
+        applicableArrayList = applicableList;
     }
 
     public void setApplicableArrayList(ArrayList<Applicable> newApplicableArrayList) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(newApplicableArrayList, applicableArrayList));
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(newApplicableArrayList, applicableListnew));
         diffResult.dispatchUpdatesTo(this);
-        applicableArrayList.clear();
-        this.applicableArrayList.addAll(newApplicableArrayList);
+        applicableListnew.clear();
+        this.applicableListnew.addAll(newApplicableArrayList);
     }
 
     @NonNull
@@ -44,10 +55,26 @@ public class PaymentMethodRecyclerViewAdapter extends RecyclerView.Adapter<Payme
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder viewHolder, int i) {
-        final Applicable applicable = applicableArrayList.get(i);
-        viewHolder.paymentMethodLabel.setText(applicable.getLabel());
-        Utils.loadBitmap(Constants.PAYMENT_METHOD_LOGO + applicable.getLinks(),
-                viewHolder.paymentMethodLogo, viewHolder.paymentMethodLogo.getContext());
+
+            Log.d(TAG, "onBindViewHolder: "+applicableArrayList.get(i));
+            viewHolder.paymentMethodLabel.setText(applicableArrayList.get(i).getLabel());
+            Picasso.get().load(applicableListnew.get(i).getLinks().getLogo()).into(viewHolder.paymentMethodLogo);
+
+
+//        JSONArray jsonElements = applicableArrayList.get(i);
+//        for (int is = 0; is < jsonElements.length(); is++) {
+//            try {
+//                JSONObject applicableDetails = jsonElements.getJSONObject(is);
+//                viewHolder.paymentMethodLabel.setText(applicableDetails.get("label").toString());
+//                JSONObject jsonObject2 = applicableDetails.getJSONObject("links");
+//                Picasso.get().load(jsonObject2.get("logo").toString()).into(viewHolder.paymentMethodLogo);
+//                JSONObject jsonElement = jsonObject2.getJSONObject("logo");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+
     }
 
     @Override
