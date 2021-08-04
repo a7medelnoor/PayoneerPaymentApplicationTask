@@ -3,9 +3,9 @@ package com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response;
 import java.util.List;
 
 public class JSONResponse {
-    private List<Applicable[]> applicables;
+    private Applicable[] applicables;
 
-    public List<Applicable[]> getApplicables() {
+    public Applicable[] getApplicables() {
         return applicables;
     }
 }
