@@ -7,7 +7,8 @@ public class Links {
         return logo;
     }
 
-    public Links(String logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
+
 }
