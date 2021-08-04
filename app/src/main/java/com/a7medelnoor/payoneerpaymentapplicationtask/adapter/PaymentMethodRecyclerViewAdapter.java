@@ -10,12 +10,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a7medelnoor.payoneerpaymentapplicationtask.R;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.Applicable;
 import com.a7medelnoor.payoneerpaymentapplicationtask.util.MyDiffCallback;
+import com.a7medelnoor.payoneerpaymentapplicationtask.util.MyItemCallback;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,16 +29,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentMethodRecyclerViewAdapter extends RecyclerView.Adapter<PaymentMethodRecyclerViewAdapter.ViewHolder> {
-    ArrayList<Applicable> applicableArrayList;
+public class PaymentMethodRecyclerViewAdapter extends ListAdapter<JsonObject, PaymentMethodRecyclerViewAdapter.ViewHolder> {
+    ArrayList<JSONArray> applicableArrayList;
     Context context;
-    List<Applicable> applicableListnew;
+    ArrayList<Applicable> applicableListnew;
+    List<JsonObject> model;
 
     private static final String TAG = "PaymentMethodRecyclerVi";
 
-    public PaymentMethodRecyclerViewAdapter(ArrayList<Applicable> applicableList, Context context) {
+    public PaymentMethodRecyclerViewAdapter(List<JsonObject> applicableList, Context context) {
+        super(new MyItemCallback());
         this.context = context;
-        applicableArrayList = applicableList;
+        model = applicableList;
     }
 
     public void setApplicableArrayList(ArrayList<Applicable> newApplicableArrayList) {
@@ -53,18 +58,21 @@ public class PaymentMethodRecyclerViewAdapter extends RecyclerView.Adapter<Payme
         return new ViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder viewHolder, int i) {
-
-            Log.d(TAG, "onBindViewHolder: "+applicableArrayList.get(i));
-            viewHolder.paymentMethodLabel.setText(applicableArrayList.get(i).getLabel());
-            Picasso.get().load(applicableListnew.get(i).getLinks().getLogo()).into(viewHolder.paymentMethodLogo);
-
-
+        viewHolder.paymentMethodLabel.setText(model.get(i).getAsJsonObject("label").toString());
+        Log.d(TAG, "onBindViewHolder: "+model.get(i).getAsJsonObject("label"));
+//        Applicable applicable = applicableListnew.get(i);
+//        viewHolder.paymentMethodLabel.setText(applicable.getLabel());
+//        Log.d(TAG, "onBindViewHolder: "+applicable.getLinks());
+//        Log.d(TAG, "onBindViewHolder:ddddddddddddd "+applicable.getLabel());
 //        JSONArray jsonElements = applicableArrayList.get(i);
+//        Log.d(TAG, "onBindViewHolder: sssssssssss"+jsonElements);
 //        for (int is = 0; is < jsonElements.length(); is++) {
 //            try {
 //                JSONObject applicableDetails = jsonElements.getJSONObject(is);
+//                Log.d(TAG, "onBindViewHolder: neww"+applicableDetails.get("label"));
 //                viewHolder.paymentMethodLabel.setText(applicableDetails.get("label").toString());
 //                JSONObject jsonObject2 = applicableDetails.getJSONObject("links");
 //                Picasso.get().load(jsonObject2.get("logo").toString()).into(viewHolder.paymentMethodLogo);
@@ -79,7 +87,7 @@ public class PaymentMethodRecyclerViewAdapter extends RecyclerView.Adapter<Payme
 
     @Override
     public int getItemCount() {
-        return applicableArrayList.size();
+        return model.size();
     }
 
 
