@@ -1,7 +1,6 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,27 +16,33 @@ import com.a7medelnoor.payoneerpaymentapplicationtask.R;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.Applicable;
 import com.a7medelnoor.payoneerpaymentapplicationtask.util.MyDiffCallback;
 import com.a7medelnoor.payoneerpaymentapplicationtask.util.MyItemCallback;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Created by Ahmed Elnoor
+ */
 
-public class PaymentMethodRecyclerViewAdapter extends ListAdapter<JsonObject, PaymentMethodRecyclerViewAdapter.ViewHolder> {
-    ArrayList<JSONArray> applicableArrayList;
+/**
+ * All information contained herein is, and remains the property of Payoneer.
+ * Unauthorized use, duplication, reverse engineering, any form of redistribution,
+ * or use in part or in whole requires prior, express, printed and signed permission from Payoneer.
+ *
+ * PaymentMethod RecyclerView Adapter Class
+ *
+ * @author Ahmed Elnoor
+ * @version 0.1, 05-08-2021
+ * @authorAccount https://github.com/a7medelnoor
+ */
+public class PaymentMethodRecyclerViewAdapter extends ListAdapter<Applicable, PaymentMethodRecyclerViewAdapter.ViewHolder> {
     Context context;
     ArrayList<Applicable> applicableListnew;
-    List<JsonObject> model;
+    List<Applicable> model;
 
-    private static final String TAG = "PaymentMethodRecyclerVi";
-
-    public PaymentMethodRecyclerViewAdapter(List<JsonObject> applicableList, Context context) {
+    public PaymentMethodRecyclerViewAdapter(List<Applicable> applicableList, Context context) {
         super(new MyItemCallback());
         this.context = context;
         model = applicableList;
@@ -61,27 +66,8 @@ public class PaymentMethodRecyclerViewAdapter extends ListAdapter<JsonObject, Pa
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder viewHolder, int i) {
-        viewHolder.paymentMethodLabel.setText(model.get(i).getAsJsonObject("label").toString());
-        Log.d(TAG, "onBindViewHolder: "+model.get(i).getAsJsonObject("label"));
-//        Applicable applicable = applicableListnew.get(i);
-//        viewHolder.paymentMethodLabel.setText(applicable.getLabel());
-//        Log.d(TAG, "onBindViewHolder: "+applicable.getLinks());
-//        Log.d(TAG, "onBindViewHolder:ddddddddddddd "+applicable.getLabel());
-//        JSONArray jsonElements = applicableArrayList.get(i);
-//        Log.d(TAG, "onBindViewHolder: sssssssssss"+jsonElements);
-//        for (int is = 0; is < jsonElements.length(); is++) {
-//            try {
-//                JSONObject applicableDetails = jsonElements.getJSONObject(is);
-//                Log.d(TAG, "onBindViewHolder: neww"+applicableDetails.get("label"));
-//                viewHolder.paymentMethodLabel.setText(applicableDetails.get("label").toString());
-//                JSONObject jsonObject2 = applicableDetails.getJSONObject("links");
-//                Picasso.get().load(jsonObject2.get("logo").toString()).into(viewHolder.paymentMethodLogo);
-//                JSONObject jsonElement = jsonObject2.getJSONObject("logo");
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
+        viewHolder.paymentMethodLabel.setText(model.get(i).label);
+        Picasso.get().load(model.get(i).getLinks().logo).into(viewHolder.paymentMethodLogo);
 
     }
 
