@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_payment_method_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/row_layout_margin"
+    android:layout_marginBottom="@dimen/row_layout_margin">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/row_card_view"
+        android:layout_width="@dimen/margin_zero"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/cardViewMarginStartEnd"
+        android:layout_marginTop="@dimen/cardViewMarginTop"
+        android:layout_marginEnd="@dimen/cardViewMarginStartEnd"
+        app:cardCornerRadius="@dimen/cardViewCornerRadius"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/card_out_color"
+        app:strokeWidth="@dimen/cardViewStrokeWidth">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/card_background">
+
+            <ImageView
+                android:id="@+id/payment_method_logo"
+                android:layout_width="@dimen/cardViewRowImageViewWidth"
+                android:layout_height="@dimen/cardViewRowImageViewHeight"
+                android:layout_marginStart="@dimen/cardViewRowImageViewMarginStart"
+                android:layout_marginTop="@dimen/cardViewRowImageViewMarginTop"
+                android:layout_marginBottom="@dimen/cardViewRowImageViewMarginBottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/payment_label_title_textView"
+                android:layout_width="@dimen/cardViewRowTextViewWidthZero"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/cardViewRowTextViewMarginStart"
+                android:ellipsize="end"
+                android:text="@string/row_item_textView"
+                android:textColor="@color/black"
+                android:textDirection="locale"
+                android:textSize="@dimen/cardViewRowTextViewTextSize"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/payment_method_logo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

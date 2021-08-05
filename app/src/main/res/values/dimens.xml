@@ -1,3 +1,19 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appBarHeight">50dp</dimen>
+    <dimen name="linearLayoutMarginTop">30dp</dimen>
+    <dimen name="row_layout_margin">4dp</dimen>
+    <dimen name="margin_zero">0dp</dimen>
+    <dimen name="cardViewMarginStartEnd">16dp</dimen>
+    <dimen name="cardViewMarginTop">30dp</dimen>
+    <dimen name="cardViewCornerRadius">10dp</dimen>
+    <dimen name="cardViewStrokeWidth">1dp</dimen>
+    <dimen name="cardViewRowImageViewWidth">50dp</dimen>
+    <dimen name="cardViewRowImageViewHeight">50dp</dimen>
+    <dimen name="cardViewRowImageViewMarginTop">16dp</dimen>
+    <dimen name="cardViewRowImageViewMarginStart">20dp</dimen>
+    <dimen name="cardViewRowImageViewMarginBottom">16dp</dimen>
+    <dimen name="cardViewRowTextViewTextSize">20sp</dimen>
+    <dimen name="cardViewRowTextViewMarginStart">16dp</dimen>
+    <dimen name="cardViewRowTextViewWidthZero">0dp</dimen>
 </resources>
