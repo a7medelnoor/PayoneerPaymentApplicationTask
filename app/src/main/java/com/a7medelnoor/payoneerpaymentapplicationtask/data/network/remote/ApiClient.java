@@ -1,7 +1,6 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.data.network.remote;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.network.PaymentApi;
 import com.a7medelnoor.payoneerpaymentapplicationtask.util.Constants;
@@ -16,7 +15,21 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+/**
+ * Created by Ahmed Elnoor
+ */
 
+/**
+ * All information contained herein is, and remains the property of Payoneer.
+ * Unauthorized use, duplication, reverse engineering, any form of redistribution,
+ * or use in part or in whole requires prior, express, printed and signed permission from Payoneer.
+ *
+ * ApiClient Class for Retrofit builder
+ *
+ * @author Ahmed Elnoor
+ * @version 0.1, 27-07-2021
+ * @authorAccount https://github.com/a7medelnoor
+ */
 public class ApiClient {
     private static Context mContext;
 
@@ -25,7 +38,6 @@ public class ApiClient {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(@NotNull String s) {
-                Log.e("OKHTTP LOG", s);
             }
         });
         httpLoggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -51,8 +63,7 @@ public class ApiClient {
         return retrofit;
     }
 
-    public static PaymentApi getPaymentService(Context context) {
-        mContext = context;
+    public static PaymentApi getPaymentService( ) {
         PaymentApi userPaymentServices = getRetrofit().create(PaymentApi.class);
         return userPaymentServices;
     }
