@@ -66,8 +66,8 @@ public class PaymentMethodRecyclerViewAdapter extends ListAdapter<Applicable, Pa
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder viewHolder, int i) {
-        viewHolder.paymentMethodLabel.setText(model.get(i).label);
-        Picasso.get().load(model.get(i).getLinks().logo).into(viewHolder.paymentMethodLogo);
+        viewHolder.paymentMethodLabel.setText(model.get(i).getLabel());
+        Picasso.get().load(model.get(i).getLinks().getLogo()).into(viewHolder.paymentMethodLogo);
 
     }
 

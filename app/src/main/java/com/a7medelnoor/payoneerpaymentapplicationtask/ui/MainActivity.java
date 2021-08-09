@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         // setup RecyclerView
         setupRecyclerView();
         // setup Progress bar when loading data
-        setupProgressBar();
+        //setupProgressBar();
 
         // Configure view model
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);

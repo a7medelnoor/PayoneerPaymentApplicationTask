@@ -1,6 +1,7 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.viewModel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.Repository;
@@ -25,13 +26,14 @@ import java.util.List;
  */
 public class MainActivityViewModel extends ViewModel {
     List<Applicable> arraylist;
-    LiveData<List<Applicable>> listLiveData;
+    MutableLiveData<List<Applicable>> listLiveData;
     private final Repository repository = new Repository().getInstance();
+    MutableLiveData<Boolean> dataLoading = new MutableLiveData<>();
 
     public MainActivityViewModel() {
         super();
         arraylist = new ArrayList<>();
-        listLiveData = repository.getApplicable();
+        listLiveData.setValue(repository.getApplicable());
     }
 
     @Override
@@ -40,6 +42,7 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public LiveData<List<Applicable>> getListLiveData() {
+//        dataLoading.setValue(true);
         return listLiveData;
     }
 

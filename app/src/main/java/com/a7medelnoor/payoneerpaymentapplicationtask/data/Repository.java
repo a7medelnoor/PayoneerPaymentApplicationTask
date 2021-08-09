@@ -1,6 +1,7 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.data;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
@@ -11,10 +12,18 @@ import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.Applicab
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.BaseResponse;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.network.PaymentApi;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.network.remote.ApiClient;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +48,7 @@ public class Repository {
     private final MutableLiveData<List<Applicable>> listMutableLiveData = new MutableLiveData<>();
     private final List<Applicable> arraylist;
     private Context context;
+    private static final String TAG = "Repository";
 
     public static Repository getInstance() {
         return repository;
@@ -49,27 +59,54 @@ public class Repository {
         arraylist = new ArrayList<>();
     }
 
-    public LiveData<List<Applicable>> getApplicable() {
+//    public LiveData<List<Applicable>> getApplicable() {
+//        paymentApi.getAllMethodPayment().enqueue(new Callback<BaseResponse>() {
+//            @Override
+//            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+//                if (response.code() == 200) {
+//                    if (response.body() != null) {
+//                        arraylist.addAll(response.body().networks.applicable);
+//                        listMutableLiveData.setValue(arraylist);
+//                    }
+//                } else if (response.code() == 404) {
+//                    Log.d(TAG,"response body 404"+response.body());
+//                    Toast.makeText(context, R.string.paymentMethod_message, Toast.LENGTH_SHORT).show();
+//                } else if (response.code() == 500) {
+//                    Log.d(TAG,"response body 500"+response.body());
+//
+//                    Toast.makeText(context, R.string.serverError, Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BaseResponse> call, Throwable throwable) {
+//
+//            }
+//        });
+//        return listMutableLiveData;
+//    }
+    public List<Applicable> getApplicable() {
         paymentApi.getAllMethodPayment().enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 if (response.code() == 200) {
                     if (response.body() != null) {
                         arraylist.addAll(response.body().networks.applicable);
-                        listMutableLiveData.setValue(arraylist);
                     }
                 } else if (response.code() == 404) {
+                    Log.d(TAG,"response body 404"+response.body());
                     Toast.makeText(context, R.string.paymentMethod_message, Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 500) {
+                    Log.d(TAG,"response body 500"+response.body());
+
                     Toast.makeText(context, R.string.serverError, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable throwable) {
-
             }
         });
-        return listMutableLiveData;
+        return arraylist;
     }
 }
