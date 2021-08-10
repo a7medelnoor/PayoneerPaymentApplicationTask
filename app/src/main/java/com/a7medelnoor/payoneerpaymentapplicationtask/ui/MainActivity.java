@@ -3,14 +3,15 @@ package com.a7medelnoor.payoneerpaymentapplicationtask.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog progress;
     Toolbar toolbar;
     TextView mTitle;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +66,44 @@ public class MainActivity extends AppCompatActivity {
 
         // Configure view model
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-        viewModel.getListLiveData().observe(this, new Observer<List<Applicable>>() {
-            @Override
-            public void onChanged(List<Applicable> applicableList) {
-                progress.dismiss();
-                arraylist.addAll(applicableList);
-                mAdapter.submitList(applicableList);
+//        viewModel.getListLiveData().observe(this, new Observer<List<Applicable>>() {
+//            @Override
+//            public void onChanged(List<Applicable> applicableList) {
+//                progress.dismiss();
+//                arraylist.addAll(applicableList);
+//                mAdapter.submitList(applicableList);
+//            }
+//        });
+        viewModel.getApplicable();
+        observeDataChange();
+
+    }
+
+    private void observeDataChange() {
+        viewModel.getApplicableViewState().observe(this, applicableListViewState -> {
+            switch (applicableListViewState.getCurrentState()) {
+                case 0:
+                    progress.dismiss();
+                    break;
+                case 1:
+                    progress.dismiss();
+                    loadingData(applicableListViewState.getData().getNetworks().getApplicable());
+                    break;
+                case -1:
+                    progress.dismiss();
+                    Log.d(TAG,"error code 404 exceptions");
+                    Toast.makeText(getApplicationContext(), "An error accrued", Toast.LENGTH_SHORT).show();
+                    break;
             }
         });
     }
+
+    private void loadingData(List<Applicable> applicable) {
+        arraylist.addAll(applicable);
+        mAdapter.submitList(applicable);
+
+    }
+
 
     private void setupProgressBar() {
         // configure progress bar

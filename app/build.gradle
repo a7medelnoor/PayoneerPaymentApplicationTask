@@ -62,8 +62,10 @@ dependencies {
 
     //  Rxjava for networking
     implementation "io.reactivex.rxjava3:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersionAndroid"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rxJavaRetrofitAdapter"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxAndroidAndAdapterVersion"
+     implementation "com.github.akarnokd:rxjava3-retrofit-adapter:$rxAndroidAndAdapterVersion"
+
+
 
     //lifecycle
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataAndViewModelLifeCycle"
@@ -88,6 +90,16 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     implementation "android.arch.lifecycle:extensions:$viewModelLifeCycle"
     implementation "android.arch.lifecycle:viewmodel:$viewModelLifeCycle"
+     // mockito
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
+
+    testImplementation "com.google.truth:truth:$googleTruthVersion"
+
+    testImplementation "androidx.arch.core:core-testing:$coreTesting"
+    //
+    testImplementation "com.jraska.livedata:testing:$liveDataTestingLib"
+
 
 
 }

@@ -17,6 +17,20 @@ import java.util.List;
  * @authorAccount https://github.com/a7medelnoor
  */
 public class Networks{
+    private List<Applicable> applicable;
+
+    public Networks(List<Applicable> applicable) {
+        this.applicable = applicable;
+    }
+
+    public List<Applicable> getApplicable() {
+        return applicable;
+    }
+
+    public void setApplicable(List<Applicable> applicable) {
+        this.applicable = applicable;
+    }
+
     @Override
     public String toString() {
         return "Networks{" +
@@ -24,5 +38,4 @@ public class Networks{
                 '}';
     }
 
-    public List<Applicable> applicable;
 }

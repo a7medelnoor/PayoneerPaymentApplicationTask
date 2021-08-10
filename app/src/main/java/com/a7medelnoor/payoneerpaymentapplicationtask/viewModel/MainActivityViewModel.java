@@ -1,13 +1,15 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.viewModel;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.a7medelnoor.payoneerpaymentapplicationtask.data.Repository;
-import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.Applicable;
+import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.BaseResponse;
+import com.a7medelnoor.payoneerpaymentapplicationtask.data.network.remote.ApiClient;
+import com.a7medelnoor.payoneerpaymentapplicationtask.ui.ApplicableListViewState;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 /**
  * Created by Ahmed Elnoor
  */
@@ -24,23 +26,51 @@ import java.util.List;
  * @authorAccount https://github.com/a7medelnoor
  */
 public class MainActivityViewModel extends ViewModel {
-    List<Applicable> arraylist;
-    LiveData<List<Applicable>> listLiveData;
-    private final Repository repository = new Repository().getInstance();
+    private CompositeDisposable disposable;
+    private final MutableLiveData<ApplicableListViewState> applicableViewState = new MutableLiveData<>();
+
+    public MutableLiveData<ApplicableListViewState> getApplicableViewState() {
+        return applicableViewState;
+    }
+
 
     public MainActivityViewModel() {
         super();
-        arraylist = new ArrayList<>();
-        listLiveData = repository.getApplicable();
+        disposable = new CompositeDisposable();
+    }
+
+    public void getApplicable() {
+        disposable.add(
+                ApiClient.getPaymentService().getAllMethodPayment()
+                        .doOnEvent((baseResponse, throwable) -> onLoading())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onSuccess, this::onError));
+
+    }
+
+    private void onSuccess(BaseResponse baseResponse) {
+        ApplicableListViewState.SUCCESS_STATE.setData(baseResponse);
+        applicableViewState.postValue(ApplicableListViewState.SUCCESS_STATE);
+    }
+
+    private void onError(Throwable error) {
+        ApplicableListViewState.ERROR_STATE.setError(error);
+        applicableViewState.postValue(ApplicableListViewState.ERROR_STATE);
+    }
+
+    private void onLoading() {
+        applicableViewState.postValue(ApplicableListViewState.LOADING_STATE);
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
+        if (disposable != null) {
+            disposable.clear();
+            disposable = null;
+        }
     }
 
-    public LiveData<List<Applicable>> getListLiveData() {
-        return listLiveData;
-    }
 
 }

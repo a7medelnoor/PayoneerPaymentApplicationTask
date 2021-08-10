@@ -1,6 +1,7 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.data.network.remote;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.network.PaymentApi;
 import com.a7medelnoor.payoneerpaymentapplicationtask.util.Constants;
@@ -9,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -32,7 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiClient {
     private static Context mContext;
-
+    private static final String TAG = "ApiClient";
     private static Retrofit getRetrofit() {
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
@@ -50,6 +52,10 @@ public class ApiClient {
                         Request request = chain.request();
                         Response response = chain.proceed(request);
                         if (response.code() == 404 || response.code() == 500) {
+                            Log.d(TAG,"response code 404");
+                        }else if (response.code() == 500){
+                            Log.d(TAG,"server response code 500");
+
                         }
                         return response;
                     }
@@ -58,6 +64,7 @@ public class ApiClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Constants.BASE_URL)
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(okHttpClientBuilder)
                 .build();
         return retrofit;
