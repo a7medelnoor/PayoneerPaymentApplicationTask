@@ -49,7 +49,6 @@ public class MainActivityViewModel extends ViewModel {
 
     }
 
-
     private void onSuccess(BaseResponse baseResponse) {
         ApplicableListViewState.SUCCESS_STATE.setData(baseResponse);
         applicableViewState.postValue(ApplicableListViewState.SUCCESS_STATE);
