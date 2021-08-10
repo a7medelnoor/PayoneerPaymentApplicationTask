@@ -84,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
             switch (applicableListViewState.getCurrentState()) {
                 case 0:
                     progress.dismiss();
-                    Log.d(TAG,"error code 404 exceptions");
-                    Toast.makeText(getApplicationContext(), "An error accrued", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
                     progress.dismiss();
@@ -93,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case -1:
                     progress.dismiss();
-                    Log.d(TAG,"error code 500 exceptions");
-                    Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"error code 404 exceptions");
+                    Toast.makeText(getApplicationContext(), "An error accrued", Toast.LENGTH_SHORT).show();
                     break;
             }
         });
