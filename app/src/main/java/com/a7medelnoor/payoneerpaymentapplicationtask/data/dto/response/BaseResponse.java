@@ -15,6 +15,19 @@ package com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response;
  * @authorAccount https://github.com/a7medelnoor
  */
 public class BaseResponse {
+    private Networks networks;
+
+    public Networks getNetworks() {
+        return networks;
+    }
+
+    public void setNetworks(Networks networks) {
+        this.networks = networks;
+    }
+
+    public BaseResponse() {
+    }
+
     @Override
     public String toString() {
         return "BaseResponse{" +
@@ -22,6 +35,6 @@ public class BaseResponse {
                 '}';
     }
 
-    public Networks networks;
+
   
 }

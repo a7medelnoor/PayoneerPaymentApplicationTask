@@ -18,6 +18,9 @@ public class Applicable {
     private String label;
     private Links links;
 
+    public Applicable() {
+    }
+
     public Applicable(String label, Links links) {
         this.label = label;
         this.links = links;
