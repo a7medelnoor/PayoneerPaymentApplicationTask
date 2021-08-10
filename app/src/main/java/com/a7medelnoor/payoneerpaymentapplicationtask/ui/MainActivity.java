@@ -1,12 +1,13 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -23,6 +24,8 @@ import com.a7medelnoor.payoneerpaymentapplicationtask.viewModel.MainActivityView
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.HttpException;
 
 /**
  * Created by Ahmed Elnoor
@@ -66,14 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Configure view model
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-//        viewModel.getListLiveData().observe(this, new Observer<List<Applicable>>() {
-//            @Override
-//            public void onChanged(List<Applicable> applicableList) {
-//                progress.dismiss();
-//                arraylist.addAll(applicableList);
-//                mAdapter.submitList(applicableList);
-//            }
-//        });
         viewModel.getApplicable();
         observeDataChange();
 
@@ -91,11 +86,36 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case -1:
                     progress.dismiss();
-                    Log.d(TAG,"error code 404 exceptions");
-                    Toast.makeText(getApplicationContext(), "An error accrued", Toast.LENGTH_SHORT).show();
+                    Throwable error = ApplicableListViewState.ERROR_STATE.getError();
+                    if (error instanceof HttpException) {
+                        HttpException httpException = (HttpException) error;
+                        if (httpException.code() == 404) {
+                            Log.d(TAG, "OnError: not found 404");
+                            alertView("Not found");
+                        } else if (httpException.code() == 500) {
+                            Log.d(TAG, "OnError:Internal server error 500");
+                            alertView("Internal server error");
+                        } else {
+                            alertView("Something went wrong");
+                        }
+                    }
                     break;
             }
         });
+    }
+
+    private void alertView(String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("Error");
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void loadingData(List<Applicable> applicable) {

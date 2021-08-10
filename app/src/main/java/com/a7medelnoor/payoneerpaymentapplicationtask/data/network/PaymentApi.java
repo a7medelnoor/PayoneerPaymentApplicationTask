@@ -24,5 +24,7 @@ public interface PaymentApi {
 
     @GET("optile/checkout-android/develop/shared-test/lists/listresult.json")
     Single<BaseResponse> getAllMethodPayment();
+    @GET("optile/checkout-android/develop/shared-test/lists/listresult.json")
+    Call<BaseResponse> getAllMethodPaymentForTesting();
 
 }

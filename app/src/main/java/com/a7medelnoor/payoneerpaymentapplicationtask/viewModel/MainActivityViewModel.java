@@ -1,11 +1,18 @@
 package com.a7medelnoor.payoneerpaymentapplicationtask.viewModel;
 
+import android.content.Context;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.Applicable;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.BaseResponse;
+import com.a7medelnoor.payoneerpaymentapplicationtask.data.network.PaymentApi;
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.network.remote.ApiClient;
 import com.a7medelnoor.payoneerpaymentapplicationtask.ui.ApplicableListViewState;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -28,6 +35,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainActivityViewModel extends ViewModel {
     private CompositeDisposable disposable;
     private final MutableLiveData<ApplicableListViewState> applicableViewState = new MutableLiveData<>();
+    private PaymentApi api;
+    private final List<Applicable> arraylist = new ArrayList<>();
+    private static final String TAG = "MainActivityViewModel";
+    private Context context;
 
     public MutableLiveData<ApplicableListViewState> getApplicableViewState() {
         return applicableViewState;
