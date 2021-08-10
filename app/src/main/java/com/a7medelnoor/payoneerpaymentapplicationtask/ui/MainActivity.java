@@ -22,6 +22,7 @@ import com.a7medelnoor.payoneerpaymentapplicationtask.adapter.PaymentMethodRecyc
 import com.a7medelnoor.payoneerpaymentapplicationtask.data.dto.response.Applicable;
 import com.a7medelnoor.payoneerpaymentapplicationtask.viewModel.MainActivityViewModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,7 +99,11 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             alertView("Something went wrong");
                         }
-                    }
+                    }else if ( error instanceof IOException) {
+                        alertView("OnError:IOException");
+                    Log.d(TAG, "OnError: IOException");
+
+                }
                     break;
             }
         });
